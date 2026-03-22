@@ -53,8 +53,8 @@ Developer pushes code
 
 | Repo | Purpose |
 |------|---------|
-| `myapp` | Application source code, Dockerfile, tests, CI pipeline |
-| `myapp-config` | Kubernetes manifests — the single source of truth for cluster state |
+| `gitops-cicd-pipeline` | Application source code, Dockerfile, tests, CI pipeline |
+| `gitops-cicd-pipeline-config` | Kubernetes manifests — the single source of truth for cluster state |
 
 Keeping them separate means:
 - You can update replicas or resource limits without triggering a full rebuild
@@ -69,11 +69,11 @@ test (11s) ──► build-and-push (1m 21s) ──► update-config (5s)
 
 - **test** — runs `pytest` against the Flask app. Pipeline stops here if any test fails
 - **build-and-push** — builds Docker image, tags it with the exact commit SHA, pushes to GHCR
-- **update-config** — checks out `myapp-config`, `sed`-replaces the image tag, commits and pushes
+- **update-config** — checks out `gitops-cicd-pipeline-config`, `sed`-replaces the image tag, commits and pushes
 
 ### CD — ArgoCD
 
-ArgoCD runs inside the cluster and polls `myapp-config` every 3 minutes. The moment it detects a new commit (a new image SHA), it applies the updated manifests and performs a rolling deployment — old pods terminate only after new pods pass readiness probes.
+ArgoCD runs inside the cluster and polls `gitops-cicd-pipeline-config` every 3 minutes. The moment it detects a new commit (a new image SHA), it applies the updated manifests and performs a rolling deployment — old pods terminate only after new pods pass readiness probes.
 
 ---
 
@@ -134,7 +134,7 @@ readinessProbe:
 ## Repository Structure
 
 ```
-myapp/                          # This repo — application source
+gitops-cicd-pipeline/                          # This repo — application source
 ├── .github/
 │   └── workflows/
 │       └── ci.yml              # Full CI pipeline definition
@@ -144,7 +144,7 @@ myapp/                          # This repo — application source
 ├── Dockerfile                  # Container build instructions
 └── .dockerignore
 
-myapp-config/                   # Separate repo — Kubernetes manifests
+gitops-cicd-pipeline-config/                   # Separate repo — Kubernetes manifests
 └── k8s/
     ├── namespace.yaml           # myapp namespace
     ├── deployment.yaml          # 2 replicas, resource limits, health probes
@@ -157,8 +157,8 @@ myapp-config/                   # Separate repo — Kubernetes manifests
 
 ```bash
 # Clone the repo
-git clone https://github.com/irfanjat/myapp.git
-cd myapp
+git clone https://github.com/irfanjat/gitops-cicd-pipeline.git
+cd gitops-cicd-pipeline
 
 # Install dependencies
 pip install -r requirements.txt
@@ -233,6 +233,6 @@ kubectl get pods -n myapp -w
 
 ## Author
 
-**Irfan Jat** — CS student building production-grade DevOps infrastructure.
+**Irfan Jat** — building production-grade DevOps infrastructure.
 
 [![GitHub](https://img.shields.io/badge/GitHub-irfanjat-181717?logo=github)](https://github.com/irfanjat)
