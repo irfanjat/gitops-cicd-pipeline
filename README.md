@@ -1,4 +1,4 @@
-# End-to-End GitOps CI/CD Pipeline.
+# End-to-End GitOps CI/CD Pipeline
 
 > A production-grade CI/CD pipeline where a single `git push` is the only manual step.
 > Code goes from laptop to live Kubernetes deployment automatically — no manual `kubectl apply`, ever.
