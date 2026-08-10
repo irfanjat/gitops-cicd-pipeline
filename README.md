@@ -1,13 +1,13 @@
 # End-to-End GitOps CI/CD Pipeline
 
-> A production-grade CI/CD pipeline where a single `git push` is the only manual step.
+> A GitOps CI/CD pipeline modeled on production patterns — a single `git push` is the only manual step.
 > Code goes from laptop to live Kubernetes deployment automatically — no manual `kubectl apply`, ever.
 
 ---
 
 ## Live Pipeline Status
 
-![CI Pipeline](https://github.com/irfanjat/myapp/actions/workflows/ci.yml/badge.svg)
+[![CI Pipeline](https://github.com/irfanjat/gitops-cicd-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/irfanjat/gitops-cicd-pipeline/actions)
 
 ---
 
@@ -201,7 +201,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d && echo
 
 # 3. Apply the ArgoCD application manifest
-kubectl apply -f https://github.com/irfanjat/myapp-config/blob/main/argocd-app.yaml
+kubectl apply -f https://raw.githubusercontent.com/irfanjat/gitops-cicd-pipeline-config/main/argocd-app.yaml
 
 # 4. Watch the sync
 argocd app get myapp
@@ -233,6 +233,6 @@ kubectl get pods -n myapp -w
 
 ## Author
 
-**Irfan Jat** — building production-grade DevOps infrastructure.
+**Irfan Jat** — building DevOps infrastructure that follows production patterns: GitOps, immutable deploys, automated rollbacks.
 
 [![GitHub](https://img.shields.io/badge/GitHub-irfanjat-181717?logo=github)](https://github.com/irfanjat)
