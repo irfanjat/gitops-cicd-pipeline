@@ -67,7 +67,7 @@ jobs:
       - name: Checkout config repo
         uses: actions/checkout@v4
         with:
-          repository: irfanjat/myapp-config
+          repository: irfanjat/gitops-cicd-pipeline-config
           token: ${{ secrets.CONFIG_REPO_PAT }}
 
       - name: Update image tag in deployment
